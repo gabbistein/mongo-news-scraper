@@ -1,5 +1,4 @@
 var mongoose = require("mongoose");
-
 var Schema = mongoose.Schema;
 
 var ArticleSchema = new Schema({
@@ -14,6 +13,15 @@ var ArticleSchema = new Schema({
   comment: {
     type: Schema.Types.ObjectId,
     ref: "Comment"
+  },
+  saved: {
+    type: Boolean,
+    default: false
+  },
+  articleID: {
+    type: Number,
+    required: true,
+    unique: true
   }
 });
 

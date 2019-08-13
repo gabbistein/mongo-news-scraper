@@ -6,7 +6,6 @@ const cheerio = require("cheerio");
 
 // Requiring the models dir:
 const db = require("./models");
-
 const PORT = 3000;
 const app = express();
 
@@ -16,6 +15,8 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Middleware:
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("views"));
