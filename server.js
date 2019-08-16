@@ -1,59 +1,40 @@
 // Dependencies:
 const express = require("express");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const axios = require("axios");
-const cheerio = require("cheerio");
-
-// Requiring the models dir:
-const db = require("./models");
-const PORT = 3000;
+mongoose.Promise = Promise;
 const app = express();
-
-// Handlebars:
 const exphbs = require("express-handlebars");
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
+const port = process.env.PORT || 3000;
+const path = require("path");
 
 // Middleware:
-const bodyParser = require("body-parser");
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static("views"));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ useNewURLParser: true }));
 app.use(express.static("public"));
 
-// Mongo DB connection:
-mongoose.connect("mongodb://localhost/mongoNewsScraper", { useNewUrlParser: true });
+app.set("views", path.join(__dirname, "views/"))
+app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.set("view engine", "handlebars");
 
-// Routing:
-app.get("/scrape", function(req, res) {
-    axios.get("http://www.echojs.com/").then(function(response) {
-      var $ = cheerio.load(response.data);
-  
-      $("article h2").each(function(i, element) {
-        var result = {};
-  
-        result.title = $(this)
-          .children("a")
-          .text();
-        result.link = $(this)
-          .children("a")
-          .attr("href");
-  
-        db.Article.create(result)
-          .then(function(dbArticle) {
-            console.log(dbArticle);
-          })
-          .catch(function(err) {
-            console.log(err);
-          });
-      });
-  
-      res.send("Scrape Complete");
-    });
-  });
+// DB:
+mongoose.connect("mongodb://localhost/mongoNewsScraper");
+const db = mongoose.connection;
 
-// Server listening:
-app.listen(PORT, function() {
-    console.log(`App running on port: ${PORT}.`);
+db.on("error", function(error) {
+  console.log("Mongoose Error: ", error);
+});
+
+db.once("open", function() {
+  console.log("Connection successful!");
+});
+
+var routes = require("./controllers/controller.js");
+app.use("/",routes);
+
+
+app.listen(port, function() {
+    console.log("App running on " + port);
   });
