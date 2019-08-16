@@ -1,9 +1,6 @@
 var mongoose = require("mongoose");
-
-// save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
-// create a new note schema
 var NoteSchema = new Schema({
   body: {
     type: String,
@@ -12,8 +9,6 @@ var NoteSchema = new Schema({
   }
 });
 
-// create model
 var Note = mongoose.model("Note", NoteSchema);
 
-// export the model
 module.exports = Note;
