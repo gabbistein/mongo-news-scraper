@@ -1,22 +1,47 @@
-<div id="wrapper">
-    <h1>Articles</h1>
-    <div id="articles">
-        {{#each articles}}
-
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{this.title}}</h5>
-                <p class="card-text">{{this.snipText}}</p>
-                <p class="card-text">{{this.comments}}</p>
-                <div class="form-group">
-                    <label for="userComment">Leave a comment</label>
-                    <input type="text" class="form-control" id="userComment" placeholder="Leave a comment">
-                </div>
-                <button href="#" class="btn btn-success" data-id="{{this._id}}">Add Comment</button>
-            </div>
-        </div>
-
-        {{/each}}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="/saved">Saved Articles</a>
     </div>
-    <div id="notes"></div>
+  </div>
+</nav>
+
+<div class="jumbotron jumbotron-fluid text-center">
+  <h1 class="display-4">Mongo News Scraper</h1>
+  <p><i>"All the News That's Fit to Scrape!"</i></p>
+  <a class="btn btn-danger scrape-new">Click for Articles</a>
+</div>
+
+<div class="container article-container">
+  <h3>New Articles</h3>
+  <div class="row">
+    {{#each articles}}
+
+    <div class="col-md-6">
+      <div class="card bg-light mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{title}}</h5>
+          <a href="{{link}}" class="card-link" target="_blank">Link to Source</a>
+          <p class="card-text">{{intro}}...</p>
+          <a data-articleId="{{_id}}" class="btn btn-success save-btn">Save</a>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+
+    {{#each articles}}
+
+    <div class="col-md-6">
+      <div class="card bg-light mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{title}}</h5>
+          <a href="{{link}}" class="card-link" target="_blank">Link to Source</a>
+          <p class="card-text">{{intro}}...</p>
+          <a data-articleId="{{_id}}" class="btn btn-success save-btn">Save</a>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+
+  </div>
 </div>

@@ -1,30 +1,37 @@
 var mongoose = require("mongoose");
+
+// save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
+// create a new article schema. The link should be unique, but the other properties are not required because they may not exist on the website to be scraped. There is validation on the route to add them to the database on if these properties exist.
 var ArticleSchema = new Schema({
   title: {
     type: String,
-    required: true
+    require: false
   },
   link: {
     type: String,
-    required: true
+    unique: true,
+    require: false
   },
-  comment: {
-    type: Schema.Types.ObjectId,
-    ref: "Comment"
+  intro: {
+    type: String,
+    require: false
   },
   saved: {
     type: Boolean,
     default: false
   },
-  articleID: {
-    type: Number,
-    required: true,
-    unique: true
-  }
+  notes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Note"
+    }
+  ]
 });
 
+// create model
 var Article = mongoose.model("Article", ArticleSchema);
 
+// export the model
 module.exports = Article;
