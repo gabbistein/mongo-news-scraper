@@ -1,6 +1,9 @@
 {
   "name": "web-scraping-mongodb",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.15.1"
+  },
   "description": "News web scraper that stores links, notes, and favorites in MongoDB",
   "main": "index.js",
   "scripts": {

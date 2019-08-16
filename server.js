@@ -22,7 +22,7 @@ mongoose.Promise = Promise;
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/news";
 mongoose.connect(MONGODB_URI);
 
-var db = require("./models/index");
+var db = require("./models");
 
 // Get all:
 app.get("/", function(req, res) {
